@@ -23,8 +23,8 @@
 /* Binaries that assume 4k page size were observed.
    Unless TARGET_PAGE_BITS is reduced, Qemu elf loader
    will error out for such binaries. */
-//#define TARGET_PAGE_BITS 16     /* 64K pages */
-#define TARGET_PAGE_BITS 12     /* 4K pages */
+#define TARGET_PAGE_BITS 16     /* 64K pages */
+// #define TARGET_PAGE_BITS 12     /* 4K pages */
 
 //// --- End LibAFL code ---
 

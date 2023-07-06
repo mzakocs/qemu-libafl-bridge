@@ -3039,10 +3039,6 @@ static void load_elf_image(const char *image_name, int image_fd,
                 loaddr = a;
             }
             a = eppnt->p_vaddr + eppnt->p_memsz - 1;
-            //// --- Begin LibAFL code ---
-            /* Fix a case where eppnt->p_memsz is zero */
-            if(eppnt->p_memsz == 0) a++;
-            //// --- End LibAFL code ---
             if (a > hiaddr) {
                 hiaddr = a;
             }
@@ -3195,14 +3191,6 @@ static void load_elf_image(const char *image_name, int image_fd,
 
     for (i = 0; i < ehdr->e_phnum; i++) {
         struct elf_phdr *eppnt = phdr + i;
-
-        //// --- Begin LibAFL code ---
-        #ifdef TARGET_HEXAGON
-        /* Encountered cases where p_type was PT_NULL
-           but the segment should still be loaded. */
-        if((eppnt->p_type == PT_NULL) && eppnt->p_vaddr) eppnt->p_type = PT_LOAD;
-        #endif
-        //// --- End LibAFL code ---
 
         if (eppnt->p_type == PT_LOAD) {
             abi_ulong vaddr, vaddr_po, vaddr_ps, vaddr_ef, vaddr_em, vaddr_len;
